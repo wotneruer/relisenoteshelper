@@ -1,0 +1,45 @@
+# Build output
+
+bin/
+obj/
+publish/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Visual Studio / Rider
+
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+
+*.nupkg
+packages/
+project.assets.json
+
+# Logs and temp files
+
+*.log
+*.tmp
+*.cache
+
+# ReleaseNotesHelper local/runtime data
+
+rnh_patch_backups/
+logs/
+results/
+service-artifacts/
+prompts/
+services/
+
+# OS files
+
+Thumbs.db
+.DS_Store

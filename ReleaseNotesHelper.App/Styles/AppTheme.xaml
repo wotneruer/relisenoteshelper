@@ -1,0 +1,683 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- RNH_UI_CONTRAST_ACCENT_006: stronger control borders for Medium Graphite -->
+
+    <!-- RNH_UI_TEXT_INPUT_REPAIR_005: text input vertical layout repair -->
+
+    <!-- RNH_THEME_MEDIUM_GRAPHITE_CLEANUP_003_SAFE_2026_06_19 -->
+
+    <SolidColorBrush x:Key="RnhBrushAppBackground" Color="#252B34"/>
+    <SolidColorBrush x:Key="RnhBrushWorkspaceBackground" Color="#2B3038"/>
+    <SolidColorBrush x:Key="RnhBrushPanel" Color="#343D49"/>
+    <SolidColorBrush x:Key="RnhBrushPanelElevated" Color="#3D4654"/>
+    <SolidColorBrush x:Key="RnhBrushSidebar" Color="#303946"/>
+    <SolidColorBrush x:Key="RnhBrushInputBackground" Color="#202630"/>
+    <SolidColorBrush x:Key="RnhBrushInputHover" Color="#29313D"/>
+    <SolidColorBrush x:Key="RnhBrushHeader" Color="#202631"/>
+    <SolidColorBrush x:Key="RnhBrushTabInactive" Color="#1F2630"/>
+    <SolidColorBrush x:Key="RnhBrushLogBackground" Color="#1A2028"/>
+
+    <SolidColorBrush x:Key="RnhBrushBorder" Color="#566171"/>
+    <SolidColorBrush x:Key="RnhBrushBorderSubtle" Color="#46515F"/>
+    <SolidColorBrush x:Key="RnhBrushBorderFocus" Color="#7EA2E3"/>
+    <SolidColorBrush x:Key="RnhBrushControlBorderDisabled" Color="#586274"/>
+    <SolidColorBrush x:Key="RnhBrushControlBorderFocus" Color="#A6C4FF"/>
+    <SolidColorBrush x:Key="RnhBrushControlBorderHover" Color="#93A9C9"/>
+    <SolidColorBrush x:Key="RnhBrushControlBorder" Color="#7A8799"/>
+
+    <SolidColorBrush x:Key="RnhBrushTextPrimary" Color="#F1F5F9"/>
+    <SolidColorBrush x:Key="RnhBrushTextSecondary" Color="#D6DEE8"/>
+    <SolidColorBrush x:Key="RnhBrushTextMuted" Color="#AAB4C2"/>
+    <SolidColorBrush x:Key="RnhBrushTextDisabled" Color="#7C8796"/>
+    <SolidColorBrush x:Key="RnhBrushTextOnPrimary" Color="#FFFFFF"/>
+
+    <SolidColorBrush x:Key="RnhBrushPrimary" Color="#4F8DF7"/>
+    <SolidColorBrush x:Key="RnhBrushPrimaryHover" Color="#3B7DE8"/>
+    <SolidColorBrush x:Key="RnhBrushPrimarySoft" Color="#2D4778"/>
+
+    <SolidColorBrush x:Key="RnhBrushInfo" Color="#38BDF8"/>
+    <SolidColorBrush x:Key="RnhBrushInfoHover" Color="#0EA5E9"/>
+    <SolidColorBrush x:Key="RnhBrushInfoSoft" Color="#1D4E66"/>
+
+    <SolidColorBrush x:Key="RnhBrushSuccess" Color="#4ADE80"/>
+    <SolidColorBrush x:Key="RnhBrushSuccessSoft" Color="#244D35"/>
+
+    <SolidColorBrush x:Key="RnhBrushWarning" Color="#FBBF24"/>
+    <SolidColorBrush x:Key="RnhBrushWarningSoft" Color="#5A4724"/>
+
+    <SolidColorBrush x:Key="RnhBrushDanger" Color="#F87171"/>
+    <SolidColorBrush x:Key="RnhBrushDangerHover" Color="#EF4444"/>
+    <SolidColorBrush x:Key="RnhBrushDangerSoft" Color="#5A2D2D"/>
+
+    <SolidColorBrush x:Key="RnhBrushCard" Color="#343D49"/>
+
+    <SolidColorBrush x:Key="RnhBrushCardElevated" Color="#3D4654"/>
+
+    <SolidColorBrush x:Key="RnhBrushTopBar" Color="#202631"/>
+
+    <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        </Style>
+
+    <Style x:Key="RnhSecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        </Style>
+
+    <Style x:Key="RnhMonoTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+    <Style x:Key="RnhSmallMutedTextStyle" TargetType="TextBlock" BasedOn="{StaticResource RnhMutedTextStyle}">
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+    <Style x:Key="RnhPageTitleTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0 0 0 8"/>
+        </Style>
+
+    <Style x:Key="RnhActionBarStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0 0 0 10"/>
+        </Style>
+
+    <Style x:Key="RnhSectionCardStyle" TargetType="Border" BasedOn="{StaticResource RnhCardStyle}">
+            <Setter Property="Margin" Value="0 0 0 12"/>
+            <Setter Property="Padding" Value="14"/>
+        </Style>
+
+    <Style TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushAppBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushWorkspaceBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+        <Setter Property="Padding" Value="0 0 0 3"/>
+    </Style>
+
+    <Style TargetType="{x:Type GroupBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Margin" Value="0 0 0 10"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Padding" Value="12 6"/>
+        <Setter Property="MinHeight" Value="34"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="7"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource RnhBrushInputHover}"/>
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource RnhBrushPrimary}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextDisabled}"/>
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource RnhBrushSidebar}"/>
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderDisabled}"/>
+                            <Setter Property="Opacity" Value="0.72"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RnhPrimaryButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushPrimary}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushPrimaryHover}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextOnPrimary}"/>
+    </Style>
+
+    <Style x:Key="RnhInfoButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushInfoSoft}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushInfo}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+    </Style>
+
+    <Style x:Key="RnhDangerButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushDangerSoft}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushDanger}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        <Setter Property="CaretBrush" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource RnhBrushPrimarySoft}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="10 7 10 6"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="TextBoxBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5"
+                            SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      Focusable="False"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="TextBoxBorder" Property="Background" Value="{StaticResource RnhBrushInputHover}"/>
+                            <Setter TargetName="TextBoxBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="TextBoxBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderFocus}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextDisabled}"/>
+                            <Setter TargetName="TextBoxBorder" Property="Background" Value="{StaticResource RnhBrushSidebar}"/>
+                            <Setter TargetName="TextBoxBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderDisabled}"/>
+                            <Setter Property="Opacity" Value="0.80"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="AcceptsReturn" Value="True">
+                <Setter Property="MinHeight" Value="58"/>
+                <Setter Property="Padding" Value="10 8"/>
+                <Setter Property="VerticalContentAlignment" Value="Top"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type PasswordBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        <Setter Property="CaretBrush" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource RnhBrushPrimarySoft}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="10 7 10 6"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+        <Setter Property="Padding" Value="10 7"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RnhComboBoxEditableTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinHeight" Value="22"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="CaretBrush" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource RnhBrushPrimarySoft}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <ScrollViewer x:Name="PART_ContentHost"
+                                  Margin="0"
+                                  Focusable="False"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Hidden"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="10 6"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="MaxDropDownHeight" Value="320"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid MinHeight="{TemplateBinding MinHeight}" SnapsToDevicePixels="True">
+                        <Border x:Name="ComboBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"/>
+
+                        <ToggleButton x:Name="DropDownToggle"
+                                      Focusable="False"
+                                      ClickMode="Press"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      HorizontalAlignment="Stretch"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Border Background="Transparent">
+                                        <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Fill="{StaticResource RnhBrushTextSecondary}"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"
+                                              Margin="0 0 12 0"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <ContentPresenter x:Name="ContentSite"
+                                          IsHitTestVisible="False"
+                                          Margin="10 0 36 0"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"/>
+
+                        <TextBox x:Name="PART_EditableTextBox"
+                                 Style="{StaticResource RnhComboBoxEditableTextBoxStyle}"
+                                 Margin="10 6 36 6"
+                                 Visibility="Hidden"
+                                 Focusable="True"
+                                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"/>
+
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               Placement="Bottom"
+                               Focusable="False"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               PopupAnimation="Fade">
+                            <Grid MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border Background="{StaticResource RnhBrushInputBackground}"
+                                        BorderBrush="{StaticResource RnhBrushControlBorderFocus}"
+                                        BorderThickness="1.5"
+                                        CornerRadius="6"
+                                        Padding="2">
+                                    <ScrollViewer SnapsToDevicePixels="True"
+                                                  KeyboardNavigation.DirectionalNavigation="Contained">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEditable" Value="True">
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ComboBorder" Property="Background" Value="{StaticResource RnhBrushInputHover}"/>
+                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderFocus}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderFocus}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextDisabled}"/>
+                            <Setter TargetName="ComboBorder" Property="Background" Value="{StaticResource RnhBrushSidebar}"/>
+                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderDisabled}"/>
+                            <Setter Property="Opacity" Value="0.85"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ListBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushControlBorder}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="MinHeight" Value="34"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Border x:Name="ListBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5"
+                            Padding="{TemplateBinding Padding}">
+                        <ScrollViewer Focusable="False">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ListBorder" Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+                            <Setter TargetName="ListBorder" Property="BorderBrush" Value="{StaticResource RnhBrushControlBorderDisabled}"/>
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextDisabled}"/>
+                            <Setter Property="Opacity" Value="0.85"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="6 4"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="ItemBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="Transparent"
+                            BorderThickness="1"
+                            CornerRadius="5"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource RnhBrushPrimary}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextDisabled}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TreeView}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="6"/>
+    </Style>
+
+    <Style TargetType="{x:Type TreeViewItem}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="3"/>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+        <Setter Property="Margin" Value="0 2"/>
+    </Style>
+
+    <Style TargetType="{x:Type RadioButton}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+        <Setter Property="Margin" Value="0 2"/>
+    </Style>
+
+    <Style TargetType="{x:Type TabControl}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushAppBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushTabInactive}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="Padding" Value="14 8"/>
+        <Setter Property="Margin" Value="0 0 4 0"/>
+        <Setter Property="MinHeight" Value="35"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Border x:Name="TabBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="7 7 0 0"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter ContentSource="Header"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextOnPrimary}"/>
+                            <Setter TargetName="TabBorder" Property="Background" Value="{StaticResource RnhBrushPrimary}"/>
+                            <Setter TargetName="TabBorder" Property="BorderBrush" Value="{StaticResource RnhBrushPrimaryHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+                            <Setter TargetName="TabBorder" Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                            <Setter TargetName="TabBorder" Property="BorderBrush" Value="{StaticResource RnhBrushBorderFocus}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextDisabled}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type DataGrid}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="RowBackground" Value="{StaticResource RnhBrushPanel}"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource RnhBrushSidebar}"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="CanUserDeleteRows" Value="False"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="SelectionUnit" Value="FullRow"/>
+    </Style>
+
+    <Style TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="BorderThickness" Value="0 0 1 1"/>
+        <Setter Property="Padding" Value="8 6"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <Style TargetType="{x:Type DataGridRow}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type DataGridCell}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="Padding" Value="6 5"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RnhCardStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="14"/>
+        <Setter Property="Margin" Value="0 0 0 12"/>
+    </Style>
+
+    <Style x:Key="RnhElevatedCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource RnhCardStyle}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorder}"/>
+    </Style>
+
+    <Style x:Key="RnhSectionTitleTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="0 0 0 8"/>
+    </Style>
+
+    <Style x:Key="RnhMutedTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextMuted}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="RnhCodeTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="RnhStatusSuccessStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource RnhCardStyle}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushSuccessSoft}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushSuccess}"/>
+    </Style>
+
+    <Style x:Key="RnhStatusWarningStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource RnhCardStyle}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushWarningSoft}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushWarning}"/>
+    </Style>
+
+    <Style x:Key="RnhStatusDangerStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource RnhCardStyle}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushDangerSoft}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushDanger}"/>
+    </Style>
+
+
+    <!-- RNH_STATUS_VISUALS_014: compact status chips used in service tables and service catalog. -->
+    <Style x:Key="RnhStatusChipBorderBaseStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="8 2"/>
+        <Setter Property="MinWidth" Value="72"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="RnhStatusChipTextBaseStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+</ResourceDictionary>

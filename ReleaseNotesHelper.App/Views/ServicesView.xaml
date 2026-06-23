@@ -1,0 +1,379 @@
+<UserControl x:Class="ReleaseNotesHelper.App.Views.ServicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<UserControl.Resources>
+
+    <!-- RNH 013: local repair for the left service catalog list.
+         The global graphite ListBoxItem style can make the catalog rows too small,
+         so the service names become clipped/invisible. Keep this scoped to ServicesView. -->
+</UserControl.Resources>
+
+
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="16"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="16" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+
+                    <Button Content="+ Додати сервіс"
+                            Height="34"
+                            Margin="0 0 0 8"
+                            Click="AddService_Click" BorderThickness="1.5"/>
+
+                    <Button Content="Синхронізувати з останнього baseline"
+                            Height="34"
+                            Margin="0 0 0 12"
+                            Click="SyncCatalogFromBaseline_Click" BorderThickness="1.5"/>
+
+                    <TextBlock Text="Проект" Foreground="{StaticResource RnhBrushTextMuted}"/>
+                    <ComboBox x:Name="ServicesProjectFilterComboBox"
+                              Margin="0 4 0 8"
+                              MinHeight="34"
+                              BorderThickness="1.5"
+                              SelectionChanged="ServicesProjectFilterComboBox_SelectionChanged"/>
+
+                    <TextBox x:Name="ServicesSearchTextBox"
+                             Margin="0 4 0 8"
+                             TextChanged="ServicesSearchTextBox_TextChanged" MinHeight="34" BorderThickness="1.5"/>
+
+                    <ComboBox x:Name="ServicesFilterComboBox"
+                              Margin="0 4 0 8"
+                              SelectedIndex="0"
+                              SelectionChanged="ServicesFilterComboBox_SelectionChanged" MinHeight="34" BorderThickness="1.5">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Valid"/>
+                        <ComboBoxItem Content="Needs Git URL"/>
+                        <ComboBoxItem Content="Unknown"/>
+                        <ComboBoxItem Content="Inactive / ignored"/>
+                    </ComboBox>
+
+                    <ComboBox x:Name="ServicesSortComboBox"
+                              Margin="0 4 0 12"
+                              SelectedIndex="0"
+                              SelectionChanged="ServicesSortComboBox_SelectionChanged" MinHeight="34" BorderThickness="1.5">
+                        <ComboBoxItem Content="Problems first"/>
+                        <ComboBoxItem Content="Name A-Z"/>
+                        <ComboBoxItem Content="Status"/>
+                        <ComboBoxItem Content="Project"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <ListBox Grid.Row="1"
+                         x:Name="ServicesListBox"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         SelectionChanged="ServicesListBox_SelectionChanged"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling"
+                                      ScrollViewer.CanContentScroll="True"
+                                      ScrollViewer.IsDeferredScrollingEnabled="True">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="MinHeight" Value="44"/>
+                            <Setter Property="Padding" Value="10,7"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource RnhBrushInputHover}"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource RnhBrushPrimarySoft}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource RnhBrushPrimary}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <!-- RNH_STATUS_VISUALS_014_SERVICES_LIST_TEMPLATE -->
+                        <DataTemplate>
+                            <Border Background="{StaticResource RnhBrushPanel}"
+                                    BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    Padding="8"
+                                    Margin="0 0 0 6">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="{StaticResource RnhBrushTextPrimary}"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding ProjectName}"
+                                                   Foreground="{StaticResource RnhBrushTextMuted}"
+                                                   FontSize="12"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+
+                                    <Border Grid.Row="1" Margin="0 5 0 0">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}" BasedOn="{StaticResource RnhStatusChipBorderBaseStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ValidationStatus}" Value="Valid">
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushSuccessSoft}"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushSuccess}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ValidationStatus}" Value="Needs Git URL">
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushWarningSoft}"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushWarning}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ValidationStatus}" Value="Unknown">
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushInfoSoft}"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushInfo}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ValidationStatus}" Value="External image">
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushInfoSoft}"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushInfo}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ValidationStatus}" Value="Ignore">
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding ValidationStatus}" ToolTip="{Binding ValidationStatus}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource RnhStatusChipTextBaseStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ValidationStatus}" Value="Valid">
+                                                            <Setter Property="Foreground" Value="{StaticResource RnhBrushSuccess}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ValidationStatus}" Value="Needs Git URL">
+                                                            <Setter Property="Foreground" Value="{StaticResource RnhBrushWarning}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ValidationStatus}" Value="Unknown">
+                                                            <Setter Property="Foreground" Value="{StaticResource RnhBrushInfo}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ValidationStatus}" Value="External image">
+                                                            <Setter Property="Foreground" Value="{StaticResource RnhBrushInfo}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ValidationStatus}" Value="Ignore">
+                                                            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextMuted}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Column="2">
+            <StackPanel>
+
+                <Border Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="16" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="Назва сервісу" Foreground="{StaticResource RnhBrushTextMuted}"/>
+                        <TextBox x:Name="ServiceNameTextBox" Margin="0 4 0 12" MinHeight="34" BorderThickness="1.5"/>
+
+                        <TextBlock Text="Проект" Foreground="{StaticResource RnhBrushTextMuted}"/>
+                        <TextBox x:Name="ServiceProjectTextBox" Margin="0 4 0 12" MinHeight="34" BorderThickness="1.5"/>
+
+                        <TextBlock Text="Git URL" Foreground="{StaticResource RnhBrushTextMuted}"/>
+                        <TextBox x:Name="ServiceGitUrlTextBox" Margin="0 4 0 12" MinHeight="34" BorderThickness="1.5"/>
+
+                        <Grid Margin="0 0 0 12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <ComboBox x:Name="ServiceValidationStatusComboBox"
+                                          Margin="0 4 0 0"
+                                          VerticalAlignment="Center"
+                                          IsEditable="True" MinHeight="34" BorderThickness="1.5">
+                                    <ComboBoxItem Content="Valid"/>
+                                    <ComboBoxItem Content="Needs Git URL"/>
+                                    <ComboBoxItem Content="Unknown"/>
+                                    <ComboBoxItem Content="External image"/>
+                                    <ComboBoxItem Content="Ignore"/>
+                                </ComboBox>
+
+                                <!-- RNH_STATUS_VISUALS_014_SELECTED_SERVICE_STATUS_CHIP -->
+                                <Border Margin="0 6 0 0">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}" BasedOn="{StaticResource RnhStatusChipBorderBaseStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Valid">
+                                                    <Setter Property="Background" Value="{StaticResource RnhBrushSuccessSoft}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource RnhBrushSuccess}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Needs Git URL">
+                                                    <Setter Property="Background" Value="{StaticResource RnhBrushWarningSoft}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource RnhBrushWarning}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Unknown">
+                                                    <Setter Property="Background" Value="{StaticResource RnhBrushInfoSoft}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource RnhBrushInfo}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="External image">
+                                                    <Setter Property="Background" Value="{StaticResource RnhBrushInfoSoft}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource RnhBrushInfo}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Ignore">
+                                                    <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding Text, ElementName=ServiceValidationStatusComboBox}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource RnhStatusChipTextBaseStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Valid">
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushSuccess}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Needs Git URL">
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushWarning}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Unknown">
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushInfo}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="External image">
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushInfo}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=ServiceValidationStatusComboBox}" Value="Ignore">
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextMuted}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
+                                <CheckBox x:Name="ServiceIsActiveCheckBox"
+                                          Content="Активний / брати у релізи"
+                                          IsChecked="True"
+                                          Margin="0 0 0 6"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBox x:Name="ServiceNotesTextBox"
+                                 Height="52"
+                                 Margin="0 4 0 12"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True" BorderThickness="1.5"/>
+
+                        <Grid Margin="0 4 0 12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Base ref" Foreground="{StaticResource RnhBrushTextMuted}"/>
+                                <ComboBox x:Name="BaseRefTypeComboBox"
+                                          SelectedIndex="0"
+                                          MinHeight="34"
+                                          Margin="0 4 0 6"
+                                          SelectionChanged="BaseRefTypeComboBox_SelectionChanged"
+                                          BorderThickness="1.5">
+                                    <ComboBoxItem Content="Tag"/>
+                                    <ComboBoxItem Content="Branch"/>
+                                </ComboBox>
+                                <ListBox x:Name="BaseTagsListBox"
+                                         Height="160"
+                                         SelectionMode="Single"
+                                         Margin="0 4 0 4"
+                                         IsEnabled="False"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Target ref" Foreground="{StaticResource RnhBrushTextMuted}"/>
+                                <ComboBox x:Name="TargetRefTypeComboBox"
+                                          SelectedIndex="1"
+                                          MinHeight="34"
+                                          Margin="0 4 0 6"
+                                          SelectionChanged="TargetRefTypeComboBox_SelectionChanged"
+                                          BorderThickness="1.5">
+                                    <ComboBoxItem Content="Tag"/>
+                                    <ComboBoxItem Content="Branch"/>
+                                </ComboBox>
+                                <ListBox x:Name="TargetBranchesListBox"
+                                         Height="160"
+                                         SelectionMode="Single"
+                                         Margin="0 4 0 4"
+                                         IsEnabled="False"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock x:Name="GitSyncStatusTextBlock"
+                                Text="Git sync не виконано"
+                                Foreground="{StaticResource RnhBrushTextMuted}"
+                                FontSize="12"
+                                Margin="0 0 0 12"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0 16 0 0">
+                            <Button x:Name="SaveServiceButton"
+                                    Content="Зберегти сервіс"
+                                    Width="140"
+                                    Height="34"
+                                    Margin="0 0 8 0"
+                                    Click="SaveService_Click" BorderThickness="1.5"/>
+
+                            <Button x:Name="DeleteServiceButton"
+                                    Content="Видалити"
+                                    Width="100"
+                                    Height="34"
+                                    Margin="0 0 8 0"
+                                    Click="DeleteService_Click" BorderThickness="1.5"/>
+
+                            <Button x:Name="SyncServiceButton"
+                                    Content="Завантажити / оновити"
+                                    Width="160"
+                                    Height="34"
+                                    Margin="0 0 8 0"
+                                    Click="SyncService_Click" BorderThickness="1.5"/>
+
+                            <Button x:Name="CollectChangesButton"
+                                    Content="Порівняти refs"
+                                    Width="140"
+                                    Height="34"
+                                    Click="CollectServiceChanges_Click" BorderThickness="1.5"/>
+                        </StackPanel>
+
+                        <ProgressBar x:Name="ServiceProgressBar"
+                                     Height="8"
+                                     Margin="0 16 0 0"
+                                     IsIndeterminate="True"
+                                     Visibility="Collapsed"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,218 @@
+<Window x:Class="ReleaseNotesHelper.App.Views.AiRulesEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AI rules editor"
+        Width="1080"
+        Height="720"
+        MinWidth="860"
+        MinHeight="560"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource RnhBrushAppBackground}">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="AI rules"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource RnhBrushTextPrimary}"/>
+                <TextBlock x:Name="HeaderTextBlock"
+                           Text="Project"
+                           Margin="0 4 0 0"
+                           Foreground="{StaticResource RnhBrushTextMuted}"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Створити відсутні"
+                        Width="140"
+                        Height="34"
+                        Margin="0 0 8 0"
+                        Click="CreateMissingRules_Click"
+                        BorderThickness="1.5"/>
+                <Button Content="Відкрити папку"
+                        Width="120"
+                        Height="34"
+                        Click="OpenRulesFolder_Click"
+                        BorderThickness="1.5"/>
+            </StackPanel>
+        </DockPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="{StaticResource RnhBrushPanel}"
+                    BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="14">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock Text="Файли правил"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource RnhBrushTextPrimary}"
+                                   Margin="0 0 0 8"/>
+                        <TextBlock Text="Правила згруповані за рівнем застосування. Групи можна згортати та розгортати."
+                                   Foreground="{StaticResource RnhBrushTextMuted}"
+                                   TextWrapping="Wrap"
+                                   Margin="0 0 0 12"/>
+                    </StackPanel>
+
+                    <ListBox x:Name="RulesListBox"
+                             SelectionChanged="RulesListBox_SelectionChanged"
+                             BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                             BorderThickness="1"
+                             Background="{StaticResource RnhBrushPanel}"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling"
+                                      ScrollViewer.CanContentScroll="True"
+                                      ScrollViewer.IsDeferredScrollingEnabled="True">
+                        <ListBox.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander IsExpanded="True"
+                                                              Margin="0 0 0 6"
+                                                              Foreground="{StaticResource RnhBrushTextPrimary}">
+                                                        <Expander.Header>
+                                                            <Border Background="{StaticResource RnhBrushPanelElevated}"
+                                                                    BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                                                                    BorderThickness="1"
+                                                                    CornerRadius="6"
+                                                                    Padding="8 6">
+                                                                <DockPanel LastChildFill="True">
+                                                                    <TextBlock Text="{Binding Name}"
+                                                                               FontWeight="Bold"
+                                                                               Foreground="{StaticResource RnhBrushTextPrimary}"/>
+                                                                    <TextBlock Text="{Binding ItemCount, StringFormat={}{0} file(s)}"
+                                                                               DockPanel.Dock="Right"
+                                                                               Foreground="{StaticResource RnhBrushTextMuted}"
+                                                                               FontSize="11"
+                                                                               Margin="8 0 0 0"/>
+                                                                </DockPanel>
+                                                            </Border>
+                                                        </Expander.Header>
+                                                        <ItemsPresenter Margin="0 4 0 0"/>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </ListBox.GroupStyle>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="Padding" Value="8"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Label}"
+                                               Foreground="{StaticResource RnhBrushTextPrimary}"
+                                               FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding RelativePath}"
+                                               Foreground="{StaticResource RnhBrushTextMuted}"
+                                               FontSize="12"
+                                               TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="2"
+                    Background="{StaticResource RnhBrushPanel}"
+                    BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <TextBlock x:Name="SelectedRuleTitleTextBlock"
+                                   Text="Файл не вибрано"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource RnhBrushTextPrimary}"/>
+                        <TextBlock x:Name="SelectedRulePathTextBlock"
+                                   Text=""
+                                   Foreground="{StaticResource RnhBrushTextMuted}"
+                                   TextWrapping="Wrap"
+                                   Margin="0 4 0 0"/>
+                    </StackPanel>
+
+                    <TextBox x:Name="RuleTextBox"
+                             Grid.Row="2"
+                             FontFamily="Consolas"
+                             FontSize="13"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             VerticalContentAlignment="Top"
+                             HorizontalContentAlignment="Left"
+                             Padding="12"
+                             BorderThickness="1.5"
+                             Background="{StaticResource RnhBrushInputBackground}"
+                             Foreground="{StaticResource RnhBrushTextPrimary}"
+                             BorderBrush="{StaticResource RnhBrushControlBorder}"/>
+
+                    <DockPanel Grid.Row="3" Margin="0 12 0 0" LastChildFill="True">
+                        <TextBlock x:Name="StatusTextBlock"
+                                   DockPanel.Dock="Left"
+                                   Foreground="{StaticResource RnhBrushTextMuted}"
+                                   VerticalAlignment="Center"
+                                   Text="Готово"/>
+
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Перезавантажити"
+                                    Width="130"
+                                    Height="34"
+                                    Margin="0 0 8 0"
+                                    Click="ReloadRule_Click"
+                                    BorderThickness="1.5"/>
+                            <Button Content="Зберегти"
+                                    Width="110"
+                                    Height="34"
+                                    Click="SaveRule_Click"
+                                    BorderThickness="1.5"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <TextBlock Grid.Row="3"
+                   Text="Порядок застосування: global → project → glossary → service/final → конкретний сервіс → реліз → шаблон. Групи в редакторі відповідають цьому порядку."
+                   Foreground="{StaticResource RnhBrushTextMuted}"
+                   Margin="0 12 0 0"/>
+    </Grid>
+</Window>

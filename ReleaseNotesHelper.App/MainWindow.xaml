@@ -1,0 +1,547 @@
+<Window x:Class="ReleaseNotesHelper.App.MainWindow"
+
+
+        xmlns:views="clr-namespace:ReleaseNotesHelper.App.Views"
+
+
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+
+        Title="Release Notes Helper"
+
+
+        Width="1200"
+
+
+        Height="800"
+
+
+        WindowStartupLocation="CenterScreen"
+
+
+        Background="{StaticResource RnhBrushPanel}">
+
+
+    <Grid Background="{StaticResource RnhBrushAppBackground}">
+
+
+        <Grid.RowDefinitions>
+
+
+            <RowDefinition Height="52"/>
+
+
+            <RowDefinition Height="*"/>
+
+
+            <RowDefinition Height="Auto"/>
+
+
+        </Grid.RowDefinitions>
+
+
+        <Border Grid.Row="0" Background="{StaticResource RnhBrushPanel}" Padding="16 0">
+
+
+            <TextBlock Text="Release Notes Helper"
+
+
+                       Foreground="{StaticResource RnhBrushTextPrimary}"
+
+
+                       FontSize="16"
+
+
+                       FontWeight="Bold"
+
+
+                       VerticalAlignment="Center"/>
+
+
+        </Border>
+
+
+        <TabControl Grid.Row="1" Margin="16 16 16 8" Background="{StaticResource RnhBrushAppBackground}">
+
+
+            <TabItem Header="Релізи">
+
+                <Grid Margin="16">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="380"/>
+
+                        <ColumnDefinition Width="16"/>
+
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <Border Grid.Column="0" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="16" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+
+                        <StackPanel>
+
+                            <TextBlock Text="Поточний реліз" FontSize="18" FontWeight="Bold" Margin="0 0 0 12"/>
+
+
+                            <TextBlock Text="Проект" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                            <TextBox x:Name="ReleaseProjectTextBox"
+
+                                     Text="RS.Core Poruch"
+
+                                     Margin="0 4 0 12" MinHeight="34" BorderThickness="1.5"/>
+
+                            <TextBlock Text="Назва релізу" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                            <TextBox x:Name="ReleaseNameTextBox"
+
+                                     Text="RS.Core 1.6.0"
+
+                                     Margin="0 4 0 12" MinHeight="34" BorderThickness="1.5"/>
+
+
+                            <TextBlock Text="Шаблон / продукт" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                            <TextBox x:Name="ReleaseTemplateTextBox"
+
+                                     Text="RS.Core"
+
+                                     Margin="0 4 0 12" MinHeight="34" BorderThickness="1.5"/>
+
+
+                            <TextBlock Text="Посилання на тегований installer" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                            <TextBox x:Name="InstallerUrlTextBox"
+
+                                     Text="https://gitlab.renome-smart.com/vpo/installer/-/blob/1.5.0/home/03_custom.yml"
+
+                                     Margin="0 4 0 8" MinHeight="34" BorderThickness="1.5"/>
+
+
+                            <TextBlock Text="Підтримується GitLab blob/tree URL. Утиліта бере тег з URL, переходить у /home і читає *.yml/*.yaml."
+
+                                       Foreground="{StaticResource RnhBrushTextMuted}"
+
+                                       FontSize="12"
+
+                                       TextWrapping="Wrap"
+
+                                       Margin="0 0 0 16"/>
+
+
+                            <Button x:Name="ImportInstallerBaselineButton"
+
+                                    Content="Імпорт baseline з інсталятора"
+
+                                    Height="34"
+
+                                    Margin="0 0 0 8"
+
+                                    Click="ImportInstallerBaseline_Click" BorderThickness="1.5"/>
+
+
+                            <Button Content="Зберегти реліз"
+
+                                    Height="34"
+
+                                    Margin="0 0 0 8"
+
+                                    Click="SaveRelease_Click" BorderThickness="1.5"/>
+
+
+                            <Button Content="Створити шаблони відсутніх сервісів"
+
+                                    Height="34"
+
+                                    Margin="0 0 0 8"
+
+                                    Click="CreateMissingServiceStubs_Click" BorderThickness="1.5"/>
+
+
+                            <TextBlock x:Name="ReleaseStatusTextBlock"
+
+                                       Text="Очікування дії"
+
+                                       Foreground="{StaticResource RnhBrushTextMuted}"
+
+                                       TextWrapping="Wrap"
+
+                                       Margin="0 12 0 0"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+
+                    <ScrollViewer Grid.Column="2">
+
+                        <StackPanel>
+
+                            <TextBlock Text="Baseline зі складу інсталятора" FontSize="24" FontWeight="Bold"/>
+
+                            <TextBlock Text="Утиліта читає docker-compose yaml, витягує image tag сервісів, звіряє з довідником і резолвить Git SHA."
+
+                                       Foreground="{StaticResource RnhBrushTextMuted}"
+
+                                       Margin="0 4 0 20"/>
+
+
+                            <Grid Margin="0 0 0 16">
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition/>
+
+                                    <ColumnDefinition Width="12"/>
+
+                                    <ColumnDefinition/>
+
+                                    <ColumnDefinition Width="12"/>
+
+                                    <ColumnDefinition/>
+
+                                    <ColumnDefinition Width="12"/>
+
+                                    <ColumnDefinition/>
+
+                                </Grid.ColumnDefinitions>
+
+
+                                <Border Grid.Column="0" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="14" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+
+                                    <StackPanel>
+
+                                        <TextBlock x:Name="ReleaseServicesCountTextBlock" Text="0" FontSize="24" FontWeight="Bold"/>
+
+                                        <TextBlock Text="знайдено сервісів" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+
+                                <Border Grid.Column="2" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="14" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+
+                                    <StackPanel>
+
+                                        <TextBlock x:Name="ReleaseResolvedCountTextBlock" Text="0" FontSize="24" FontWeight="Bold"/>
+
+                                        <TextBlock Text="Git SHA знайдено" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+
+                                <Border Grid.Column="4" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="14" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+
+                                    <StackPanel>
+
+                                        <TextBlock x:Name="ReleaseMissingCountTextBlock" Text="0" FontSize="24" FontWeight="Bold"/>
+
+                                        <TextBlock Text="немає в довіднику" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+
+                                <Border Grid.Column="6" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="14" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+
+                                    <StackPanel>
+
+                                        <TextBlock x:Name="ReleaseErrorCountTextBlock" Text="0" FontSize="24" FontWeight="Bold"/>
+
+                                        <TextBlock Text="помилки тегів" Foreground="{StaticResource RnhBrushTextMuted}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                            </Grid>
+
+
+                            <Border Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="16" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Сервіси з yaml інсталятора" FontSize="16" FontWeight="Bold" Margin="0 0 0 12"/>
+
+
+                                    <DataGrid x:Name="ReleasesDataGrid"
+
+                                              AutoGenerateColumns="False"
+
+                                              Height="430"
+
+                                              IsReadOnly="True">
+
+                                        <DataGrid.RowStyle>
+
+                                            <Style TargetType="{x:Type DataGridRow}">
+
+                                                <Style.Triggers>
+
+                                                    <DataTrigger Binding="{Binding Status}" Value="Missing in services.json">
+
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushDangerSoft}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Status}" Value="Missing Git URL">
+
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushDangerSoft}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Status}" Value="No Git tag">
+
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushWarningSoft}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Status}" Value="External image">
+
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushWarningSoft}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Status}" Value="Baseline">
+
+                                                        <Setter Property="Background" Value="{StaticResource RnhBrushSuccessSoft}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+
+                                                    </DataTrigger>
+
+                                                </Style.Triggers>
+
+                                            </Style>
+
+                                        </DataGrid.RowStyle>
+
+                                        <DataGrid.Columns>
+
+                                            <DataGridTextColumn Header="Сервіс" Binding="{Binding ServiceName}" Width="170"/>
+
+                                            <DataGridTextColumn Header="Image" Binding="{Binding ImageName}" Width="170"/>
+
+                                            <DataGridTextColumn Header="Версія з yaml" Binding="{Binding SourceVersion}" Width="120"/>
+
+                                            <DataGridTextColumn Header="Git ref" Binding="{Binding TargetRef}" Width="110"/>
+
+                                            <DataGridTextColumn Header="Git SHA" Binding="{Binding TargetSha}" Width="160"/>
+
+                                            <DataGridTextColumn Header="YAML" Binding="{Binding SourceFile}" Width="170"/>
+
+                                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="160">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Baseline">
+                                                                <Setter Property="Foreground" Value="{StaticResource RnhBrushSuccess}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Missing in services.json">
+                                                                <Setter Property="Foreground" Value="{StaticResource RnhBrushDanger}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Missing Git URL">
+                                                                <Setter Property="Foreground" Value="{StaticResource RnhBrushDanger}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="No Git tag">
+                                                                <Setter Property="Foreground" Value="{StaticResource RnhBrushWarning}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="External image">
+                                                                <Setter Property="Foreground" Value="{StaticResource RnhBrushWarning}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+
+                                            <DataGridTextColumn Header="Помилка" Binding="{Binding ErrorMessage}" Width="240"/>
+
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+
+
+                                    <TextBlock Text="Кольори: зелений — baseline знайдено, червоний — немає сервісу або Git URL у довіднику, жовтий — тег не знайдено або зовнішній image."
+
+                                               Foreground="{StaticResource RnhBrushTextMuted}"
+
+                                               FontSize="12"
+
+                                               Margin="0 8 0 0"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </StackPanel>
+
+                    </ScrollViewer>
+
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Шаблони релізів">
+                <views:ReleaseTemplatesView/>
+            </TabItem>
+            <TabItem Header="Довідник сервісів">
+
+
+                <views:ServicesView/>
+
+
+            </TabItem>
+
+
+            <TabItem Header="Конфігурація">
+
+
+                <views:ConfigurationView/>
+
+
+            </TabItem>
+                        <!-- RNH_OUTPUT_NAV_TREE_2026_06_18: navigable Output tree for releases, services, repo logs -->
+            <!-- RNH_GUIDE_TAB_003_2026_06_19: standalone guide, active tabs stay focused on work. -->
+<!-- RNH_GUIDE_SUBTABS_CLEANUP_006_2026_06_19: single guide tab. -->
+<TabItem Header="Довідка">
+    <views:GuideView/>
+</TabItem>
+
+<TabItem Header="Output">
+                <Grid Margin="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="390"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="{StaticResource RnhBrushPanel}" CornerRadius="10" Padding="16" BorderBrush="{StaticResource RnhBrushBorderSubtle}" BorderThickness="1">
+                        <DockPanel LastChildFill="True">
+                            <StackPanel DockPanel.Dock="Top">
+                                <TextBlock Text="Результати" FontSize="18" FontWeight="Bold" Margin="0 0 0 8"/>
+                                <TextBlock Text="Релізи, розгортайки, сервіси, prompts, notes і git-логи репозиторіїв." Foreground="{StaticResource RnhBrushTextMuted}" TextWrapping="Wrap" Margin="0 0 0 12"/>
+
+                                <Button Content="Оновити дерево" Height="34" Margin="0 0 0 8" Click="RefreshOutputTree_Click" BorderThickness="1.5"/>
+                                <Button Content="Відкрити вибрану папку / файл" Height="34" Margin="0 0 0 12" Click="OpenSelectedOutputFolder_Click" BorderThickness="1.5"/>
+                                <Separator Margin="0 0 0 12"/>
+                            </StackPanel>
+
+                            <TreeView x:Name="OutputTreeView"
+                                      SelectedItemChanged="OutputTreeView_SelectedItemChanged"
+                                      BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                                      BorderThickness="1"
+                                      Background="{StaticResource RnhBrushPanel}"/>
+                        </DockPanel>
+                    </Border>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Перегляд файлу" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="Вибери реліз, сервіс, файл, prompt або git-log ліворуч. Для сервісу можна дивитися окремий стек змін, не весь installer." Foreground="{StaticResource RnhBrushTextMuted}" Margin="0 4 0 20" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Вибраний файл" FontWeight="Bold" Margin="0 0 0 4"/>
+                        <TextBlock x:Name="OutputCurrentFileTextBlock"
+                                   Text="Файл не вибрано"
+                                   Foreground="{StaticResource RnhBrushTextMuted}"
+                                   TextWrapping="Wrap"
+                                   Margin="0 0 0 12"/>
+
+                        <TextBox x:Name="OutputPreviewTextBox"
+                                 Height="440"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 HorizontalScrollBarVisibility="Auto"
+                                 FontFamily="Consolas"
+                                 Text="Виберіть файл у дереві результатів." VerticalContentAlignment="Top" HorizontalContentAlignment="Left" Padding="12" Background="{StaticResource RnhBrushInputBackground}" BorderBrush="{StaticResource RnhBrushBorderFocus}" Foreground="{StaticResource RnhBrushTextPrimary}" BorderThickness="1.5"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 16 0 0">
+                            <Button Content="Скопіювати" Width="110" Height="34" Margin="0 0 8 0" Click="CopyOutputPreview_Click" BorderThickness="1.5"/>
+                            <Button Content="Експорт" Width="110" Height="34" Click="ExportOutputPreview_Click" BorderThickness="1.5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+</TabControl>
+
+        <!-- RNH_BOTTOM_LOG_PANEL_2026_06_18: docked collapsible journal visible across all tabs -->
+        <Border Grid.Row="2"
+                Background="{StaticResource RnhBrushPanel}"
+                BorderBrush="{StaticResource RnhBrushBorderSubtle}"
+                BorderThickness="0 1 0 0">
+            <Expander x:Name="BottomLogExpander"
+                      IsExpanded="True"
+                      Foreground="{StaticResource RnhBrushTextPrimary}"
+                      Background="{StaticResource RnhBrushPanel}">
+                <Expander.Header>
+                    <DockPanel LastChildFill="True" Margin="8 4">
+                        <TextBlock Text="Журнал виконання"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource RnhBrushTextPrimary}"
+                                   Margin="0 0 12 0"/>
+                        <TextBlock x:Name="BottomLogStatusTextBlock"
+                                   Text="Останні події з’являтимуться тут."
+                                   Foreground="{StaticResource RnhBrushTextPrimary}"
+                                   TextTrimming="CharacterEllipsis" Visibility="Collapsed"/>
+                    </DockPanel>
+                </Expander.Header>
+
+                <Grid Margin="12 0 12 12" MinHeight="120" MaxHeight="240">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0" LastChildFill="True">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                            <Button Content="Очистити" Width="90" Height="28" Margin="4 0" Click="ClearLog_Click" BorderThickness="1.5"/>
+                            <Button Content="Скопіювати" Width="110" Height="28" Margin="4 0" Click="CopyLog_Click" BorderThickness="1.5"/>
+                            <Button Content="Зберегти log.txt" Width="140" Height="28" Margin="4 0" Click="SaveLog_Click" BorderThickness="1.5"/>
+                            <!-- RNH_AUTO_SESSION_LOG_2026_06_18: open the full automatically written session log -->
+                            <Button Content="Відкрити повний лог" Width="160" Height="28" Margin="4 0" Click="OpenSessionLog_Click" BorderThickness="1.5"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Лог видно з будь-якої вкладки. Панель показує останні 500 рядків, повний журнал автоматично пишеться у файл."
+                                   Foreground="{StaticResource RnhBrushTextPrimary}"
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                    </DockPanel>
+
+                    <TextBox x:Name="LogTextBox"
+                             Grid.Row="2"
+                             Background="{StaticResource RnhBrushPanel}"
+                             Foreground="{StaticResource RnhBrushTextPrimary}"
+                             BorderBrush="{StaticResource RnhBrushControlBorder}"
+                             FontFamily="Consolas"
+                             FontSize="12"
+                             TextWrapping="NoWrap"
+                             AcceptsReturn="True"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             Text="" BorderThickness="1.5"/>
+                </Grid>
+            </Expander>
+        </Border>
+
+
+    </Grid>
+
+
+</Window>

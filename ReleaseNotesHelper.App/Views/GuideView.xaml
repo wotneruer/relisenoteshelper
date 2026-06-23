@@ -1,0 +1,1038 @@
+<UserControl x:Class="ReleaseNotesHelper.App.Views.GuideView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- RNH_GUIDE_SUBTABS_CLEANUP_006_2026_06_19: guide is organized by inner tabs. No runtime logic. -->
+    <UserControl.Resources>
+        <Style x:Key="PageTitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="Margin" Value="0 0 0 6"/>
+        </Style>
+
+        <Style x:Key="PageSubtitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextMuted}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0 0 0 14"/>
+        </Style>
+
+        <Style x:Key="CardStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0 0 0 14"/>
+        </Style>
+
+        <Style x:Key="AccentCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource CardStyle}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        </Style>
+
+        <Style x:Key="WarningCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource CardStyle}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="Margin" Value="0 0 0 8"/>
+        </Style>
+
+        <Style x:Key="SubTitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="Margin" Value="0 8 0 4"/>
+        </Style>
+
+        <Style x:Key="BodyTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0 3 0 3"/>
+            <Setter Property="LineHeight" Value="19"/>
+        </Style>
+
+        <Style x:Key="CodeTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0 3 0 3"/>
+        </Style>
+
+
+        <Style x:Key="GuideMutedStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextMuted}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="LineHeight" Value="18"/>
+            <Setter Property="Margin" Value="0 2 0 2"/>
+        </Style>
+
+        <Style x:Key="GuideSmallTitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="Margin" Value="0 0 0 6"/>
+        </Style>
+
+        <Style x:Key="GuidePillStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushInputBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10 6"/>
+            <Setter Property="Margin" Value="0 0 8 8"/>
+        </Style>
+
+        <Style x:Key="GuideTableHeaderStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanelElevated}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorder}"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Setter Property="Padding" Value="10 8"/>
+        </Style>
+
+        <Style x:Key="GuideTableCellStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource RnhBrushPanel}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Setter Property="Padding" Value="10 8"/>
+        </Style>
+
+        <Style x:Key="GuideTableHeaderTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="GuideTableTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextSecondary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="LineHeight" Value="18"/>
+        </Style>
+
+        <Style x:Key="GuideTableCodeStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Foreground" Value="{StaticResource RnhBrushTextPrimary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="GuideTabStyle" TargetType="{x:Type TabControl}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RnhBrushBorderSubtle}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Довідка Release Notes Helper"
+                       Style="{StaticResource PageTitleStyle}"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="1"
+                    Style="{StaticResource GuideTabStyle}" Background="{StaticResource RnhBrushAppBackground}">
+                        <TabItem Header="Основний flow">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Єдиний порядок підготовки release notes: від baseline і target refs до snapshot, AI notes та перевірки результатів." Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Порядок роботи"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="№" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Етап" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Результат" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="1" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Конфігурація" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Задані Git-доступ, папки репозиторіїв, output/logs і AI-режим." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="2" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Довідник сервісів" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перевірені Git URL, активність сервісів, tags і branches." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="3" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Релізи" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Імпортований baseline зі складу інсталятора." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="4" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Шаблон релізу" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Вибрані сервіси, baseline, default target і target refs." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="5" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Scan" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Створений snapshot зі scope, commits, files і warnings." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="6" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI notes" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Згенерований або fallback release notes на основі поточного snapshot." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="7" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="7" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Output" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="7" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перевірені metadata, scope-summary, prompt і client-release-notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Контрольні точки"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що перевірити" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Очікуваний стан" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Baseline" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Попередній реліз містить коректні image tags, refs і SHA по сервісах." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Target refs" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Для кожного включеного сервісу вказано актуальний branch/tag/ref." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Warnings" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Попередження scan перевірені до запуску AI notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Snapshot" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI generation бере останній snapshot поточного шаблону, а не стару папку з такою самою назвою релізу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+                        <TabItem Header="Релізи">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Імпорт і збереження baseline-релізів, з якими потім порівнюються target refs у шаблонах релізів." Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Основні дії"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Дія" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Результат" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Імпортувати baseline" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Утиліта читає installer yaml/yml і витягує сервіси, image tags, refs та SHA." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перевірити таблицю сервісів" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Видно, які сервіси знайдені, які мають Git scope, а які потребують довідника сервісів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Зберегти реліз" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Baseline стає доступним для шаблонів релізів і scan." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Створити відсутні сервіси" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Нові сервіси можна перенести у довідник для подальшого налаштування Git URL." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Використовувати коли"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Ситуація" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що робити" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Починається новий реліз" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Спочатку імпортувати попередній installer baseline." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Змінився склад інсталятора" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Повторно імпортувати baseline і перевірити сервісну таблицю." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="У scan немає previous SHA" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перевірити, чи потрібний сервіс присутній у baseline-релізі." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+                        <TabItem Header="Шаблони релізів">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Налаштування майбутнього релізу: склад сервісів, baseline, target refs, scan і запуск AI release notes." Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Основні дії"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Дія" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Результат" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Створити або відкрити шаблон" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Завантажуються назва релізу, default target, перелік сервісів і попередні target refs." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Включити сервіси" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="У scan потрапляють лише позначені сервіси." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Обрати target refs" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Для кожного сервісу задається branch/tag/ref, з яким порівнюється baseline." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Запустити Scan" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Формується snapshot зі scope змін." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Запустити AI notes" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI або fallback формує release notes на основі snapshot." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Open / Output" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Відкривається папка або внутрішній перегляд результатів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Ключові поля"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Поле" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Призначення" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Назва шаблону" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Внутрішня назва сценарію підготовки релізу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Назва релізу" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Назва, яка потрапляє у snapshot і release notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Default target" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Target ref за замовчуванням для сервісів без індивідуального вибору." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Baseline" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Попередній реліз, від якого рахується scope змін." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Diverged history" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Правило побудови diff, якщо previous SHA не є предком target SHA." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Target refs"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Формат" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Пояснення" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="origin/dev" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Один target ref для сервісу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="origin/dev; origin/organizations" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Multi-target: scope збирається по кількох refs з dedup commits/files." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Кнопка ..." Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Відкриває picker branches/tags з локального Git-репозиторію сервісу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+                        <TabItem Header="Довідник сервісів">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Єдиний каталог сервісів, Git URL, статусів, активності, tags і branches, які використовуються у релізних шаблонах." Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Основні дії"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Дія" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Результат" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Додати сервіс" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Новий сервіс стає доступним для шаблонів релізів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Вказати Git URL" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Scan може клонувати/оновлювати репозиторій і рахувати scope." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Синхронізувати baseline" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Довідник оновлюється на основі останнього імпортованого baseline." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Оновити refs" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Branches/tags перечитуються з локального Git-репозиторію." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Позначити активність" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Неактивні сервіси не пропонуються як основні кандидати для релізу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Статуси"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Статус" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що означає" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Valid" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Сервіс має достатньо даних для Git scope." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Needs Git URL" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Потрібно додати Git URL у довіднику сервісів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="External image" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Image або сервіс не має повного Git scope у поточній конфігурації." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+                        <TabItem Header="Конфігурація">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Системні налаштування утиліти: доступ до Git, локальні шляхи, AI-параметри та optional Jira-блок." Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Блоки налаштувань"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Блок" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що задається" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Git" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Тип авторизації, username/email, token/password і доступ до репозиторіїв." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Paths" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Папка локальних репозиторіїв, папка результатів і папка логів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Provider/mode, API key/token і налаштування технічних даних у prompt." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Jira" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Optional-інтеграція, яка не є обовʼязковою для основного release flow." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Мінімум для роботи"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Налаштування" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Навіщо потрібне" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Repositories path" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Звідси утиліта бере локальні Git-репозиторії сервісів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Results path" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Сюди створюються release snapshots і output artifacts." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Logs path" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Сюди пишеться повний session log." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI key/token" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Потрібний тільки для реальної AI generation; без нього можливий fallback/prompt-only сценарій." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- RNH_GUIDE_FILES_LOGS_007: explains generated release files, service artifacts and logs. -->
+            
+
+                                    <TabItem Header="Файли і логи">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Структура snapshot"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="360"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Папка" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Вміст" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="results/releases/&lt;release snapshot&gt;/" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Root-папка конкретного результату Scan або AI notes. Містить загальний scope, metadata, prompts, release notes і artifacts по сервісах." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="service-artifacts/" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Технічні матеріали по кожному сервісу: commits, changed files, git diagnostics, service summary, AI prompt і AI notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="services/" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Service-level release notes окремими markdown-файлами." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="prompts/" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Prompt-файли для перевірки того, що саме передавалось у AI." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Root-файли snapshot"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="300"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Файл" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що містить" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Коли відкривати" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="release-metadata.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Назва релізу, шаблон, baseline, refs, SHA, дата створення snapshot." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перший файл для перевірки, з чого саме сформовано snapshot." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="scope-summary.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Зведення по сервісах: status, commits, files, target refs, warnings." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Швидкий review релізного scope після Scan." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="scope-commits.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Commits, згруповані по сервісах." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Ручна перевірка, які зміни потрапили у реліз." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="scope-changed-files.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Changed files, згруповані по сервісах." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Технічний review масштабу змін." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="combined-ai-prompt.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Зведений prompt для фінального release notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перевірка, що саме було передано в AI." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="client-release-notes.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Фінальний AI/fallback результат." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Основний файл для клієнтських release notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="service-artifacts-index.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="7" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Індекс artifacts по сервісах." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="7" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Швидкий перехід до технічних файлів конкретного сервісу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="8" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="ai-errors.txt / prompt-only-fallback.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="8" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI errors, quota/fallback details, prompt-only матеріали." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="8" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Діагностика проблем AI generation." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Service artifacts"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="300"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Файл" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Призначення" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="summary.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Короткий підсумок по сервісу: baseline, target refs, commits/files count, warnings." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="commits.md / changed-files.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Деталізація змін конкретного сервісу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="git-info.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Git diagnostics: base/target SHA, merge-base, diff mode, history warnings." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="targets/&lt;target-ref&gt;/..." Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Artifacts окремого target ref для multi-target сервісів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Логи та службові JSON"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="300"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="rnh-session-yyyyMMdd-HHmmss.log" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Повний session log: імпорт baseline, refs refresh, scan, AI generation, fallback, output navigation, errors." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Журнал виконання" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Нижня панель застосунку з останніми повідомленнями поточної сесії." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="rnh-log-export-yyyyMMdd-HHmmss.txt" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Ручний експорт session log через кнопку Зберегти log.txt." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="config.json / services.json" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Налаштування шляхів/API та довідник сервісів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="templates.json / releases.json" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Збережені шаблони релізів і imported baseline releases." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Release flow">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Новий flow генерації релізу"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="У шаблонах релізів baseline більше не вибирається вручну. Для кожного сервісу baseline визначається автоматично: Base ref → installer baseline SHA → saved baseline / previous release → baseline version."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                                <TextBlock Text="Diverged history прибрано з UI. Якщо історія Git розійшлась, застосунок автоматично використовує безпечний режим merge-base..target."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Рекомендований порядок роботи"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="230"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="#" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Дія" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Пояснення" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="1" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Import baseline" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="На вкладці Релізи імпортуй baseline з installer для попередньої версії, якщо потрібен installer baseline." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="2" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Select services" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="У Шаблонах релізів увімкни галочки тільки для сервісів, які мають увійти в scan." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="3" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Base ref / Target refs" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Для tag-to-tag сценарію задай Base ref як попередній tag, а Target refs як новий tag. Для старого flow можна залишити Target refs як branch." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="4" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Save → Scan" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Після змін у таблиці обовʼязково натисни Save, потім Scan. AI notes працює зі snapshot останнього Scan, а не з поточної незбереженої таблиці." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="5" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI notes" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Генерацію AI notes запускай тільки після успішного Scan. Якщо refs у таблиці відрізняються від snapshot, застосунок покаже попередження." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="6" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Review output" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перевір client-release-notes.md. Якщо був AI fallback або quota limit, файл не вважається client-ready." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Як читати refs"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Base ref — початкова точка порівняння для сервісу. Target refs — одна або кілька кінцевих точок порівняння. Якщо в Target refs кілька значень, кожне значення сканується незалежно."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                                <TextBlock Text="Приклад: vpo-portal Base ref = tag: 1.0.0, Target refs = tag: 1.3.0 означає порівняння tag: 1.0.0 → tag: 1.3.0."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource WarningCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="AI fallback / quota"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Якщо AI provider повернув 503 або 429 quota limit, застосунок зберігає prompts і технічні artifacts, але фінальний client-release-notes.md не має містити raw commits, авторів, SHA, branches, internal URLs або PTS IDs."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                                <TextBlock Text="У такому випадку повтори AI notes після reset quota або використай combined-ai-prompt.md для ручної генерації. Safe fallback файл не є client-ready."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="AI rules">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="AI rules editor дозволяє зберігати додаткові інструкції для AI generation без зміни коду програми. Правила підтягуються у prompt під час генерації service notes або final client release notes."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                                <TextBlock Text="Редактор відкривається з вкладки Шаблони релізів для поточного проекту, релізу, шаблону та сервісів."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Кнопки редактора"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Кнопка / дія" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що робить" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="AI rules" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Відкриває редактор правил для поточного шаблону релізу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Create missing" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Створює відсутні файли правил-заготовки для global/project/service/release/template рівнів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Save" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Зберігає вміст відкритого markdown-файлу правил." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Reload" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Перечитує поточний файл з диска. Перед reload потрібно зберегти незбережені зміни." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Open folder" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Відкриває фізичну папку ai-rules у Windows Explorer." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Групи правил"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="230"/>
+                                        <ColumnDefinition Width="310"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Група" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Файли" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Коли застосовується" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Global rules" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="ai-rules/global.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Загальні правила для всіх проектів і релізів." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Project context" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="project-rules.md, glossary.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Правила і терміни конкретного проекту." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Output format rules" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="service-release-notes.md, final-release-notes.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Формат окремих service notes і фінальних client release notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Service-specific rules" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="services/&lt;service&gt;.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Правила для конкретного сервісу: як називати функціонал, що ігнорувати, як групувати зміни." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Release-specific rules" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="releases/&lt;release&gt;.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="5" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Одноразові правила для конкретного релізу." Style="{StaticResource GuideTableTextStyle}"/></Border>
+
+                                    <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Template-specific rules" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="templates/&lt;template&gt;.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="6" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Правила для конкретного шаблону релізу, наприклад для RS.Core Poruch." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Порядок застосування"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Правила додаються в AI prompt у такому порядку: global → project rules → glossary → output format rules → service-specific rules → release-specific rules → template-specific rules → runtime prompt."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                                <TextBlock Text="Чим нижче правило в цьому порядку, тим воно конкретніше. Якщо є конфлікт між загальним і конкретним правилом, орієнтуватись потрібно на конкретніше правило."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                                <TextBlock Text="Редактор тільки зберігає markdown-файли. Сам AI запускається окремо під час генерації notes, а не при натисканні Save."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource WarningCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Рекомендації"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Не дублюй однакові правила у всіх файлах. Загальні вимоги тримай у global/project, терміни — у glossary, формат відповіді — в output format, винятки конкретного сервісу — у services/&lt;service&gt;.md."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Output">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Призначення"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Внутрішній перегляд результатів scan і AI generation без ручного переходу у файлову систему." Style="{StaticResource BodyTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Основні дії"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Дія" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Результат" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Вибрати файл у дереві" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Відкривається preview вмісту вибраного artifact." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Copy content" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Копіюється текст вибраного файлу для review або ручного редагування." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Open folder" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Відкривається фізична папка snapshot у Windows Explorer." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Refresh" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Оновлюється дерево після нового Scan або повторної AI generation." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Порядок перевірки"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="48"/>
+                                        <ColumnDefinition Width="300"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="№" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Файл" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource GuideTableHeaderStyle}"><TextBlock Text="Що перевірити" Style="{StaticResource GuideTableHeaderTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="1" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="release-metadata.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Назву релізу, шаблон, baseline, refs/SHA і дату snapshot." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="2" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="scope-summary.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Список сервісів, статуси, target refs, commits/files і warnings." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="3" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="combined-ai-prompt.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Що саме було передано в AI для фінального release notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="4" Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="client-release-notes.md" Style="{StaticResource GuideTableCodeStyle}"/></Border>
+                                    <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource GuideTableCellStyle}"><TextBlock Text="Фінальний текст перед використанням у release notes." Style="{StaticResource GuideTableTextStyle}"/></Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
