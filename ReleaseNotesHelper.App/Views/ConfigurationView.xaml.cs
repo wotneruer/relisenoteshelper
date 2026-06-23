@@ -320,8 +320,8 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
             Padding = new System.Windows.Thickness(14),
             BorderThickness = new System.Windows.Thickness(1),
             CornerRadius = new System.Windows.CornerRadius(8),
-            BorderBrush = System.Windows.Media.Brushes.LightGray,
-            Background = System.Windows.Media.Brushes.White
+            BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(72, 86, 105)),
+            Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(49, 60, 73))
         };
 
         var panel = new System.Windows.Controls.StackPanel
@@ -332,6 +332,7 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         panel.Children.Add(new System.Windows.Controls.TextBlock
         {
             Text = "Portable settings",
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(238, 244, 250)),
             FontWeight = System.Windows.FontWeights.SemiBold,
             FontSize = 16,
             Margin = new System.Windows.Thickness(0, 0, 0, 6)
@@ -340,8 +341,9 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         panel.Children.Add(new System.Windows.Controls.TextBlock
         {
             Text = "Основні налаштування застосунку. Вони зберігаються у settings.json біля exe, але редагуються тут, без ручного відкриття JSON.",
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(210, 220, 232)),
             TextWrapping = System.Windows.TextWrapping.Wrap,
-            Opacity = 0.78,
+            Opacity = 0.95,
             Margin = new System.Windows.Thickness(0, 0, 0, 12)
         });
 
@@ -360,6 +362,7 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         _portableHideTechnicalDataCheckBox = new System.Windows.Controls.CheckBox
         {
             Content = "Hide technical data from AI prompts",
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(238, 244, 250)),
             Margin = new System.Windows.Thickness(0, 10, 0, 8),
             IsChecked = true
         };
@@ -367,8 +370,9 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
 
         _portableSettingsFileTextBlock = new System.Windows.Controls.TextBlock
         {
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(210, 220, 232)),
             TextWrapping = System.Windows.TextWrapping.Wrap,
-            Opacity = 0.72,
+            Opacity = 0.92,
             Margin = new System.Windows.Thickness(0, 0, 0, 10)
         };
         panel.Children.Add(_portableSettingsFileTextBlock);
@@ -418,8 +422,9 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
 
         _portableSettingsStatusTextBlock = new System.Windows.Controls.TextBlock
         {
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(210, 220, 232)),
             TextWrapping = System.Windows.TextWrapping.Wrap,
-            Opacity = 0.78,
+            Opacity = 0.95,
             Margin = new System.Windows.Thickness(0, 10, 0, 0)
         };
         panel.Children.Add(_portableSettingsStatusTextBlock);
@@ -443,6 +448,7 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         wrapper.Children.Add(new System.Windows.Controls.TextBlock
         {
             Text = title,
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(238, 244, 250)),
             FontWeight = System.Windows.FontWeights.SemiBold,
             Margin = new System.Windows.Thickness(0, 0, 0, 2)
         });
@@ -450,8 +456,9 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         wrapper.Children.Add(new System.Windows.Controls.TextBlock
         {
             Text = description,
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(210, 220, 232)),
             TextWrapping = System.Windows.TextWrapping.Wrap,
-            Opacity = 0.72,
+            Opacity = 0.92,
             Margin = new System.Windows.Thickness(0, 0, 0, 5)
         });
 
