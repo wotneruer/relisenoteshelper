@@ -286,7 +286,6 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
     private bool _portableConfigurationSettingsHooked;
     private System.Windows.Controls.TextBox? _portableDataRootTextBox;
     private System.Windows.Controls.TextBox? _portableRepositoriesRootTextBox;
-    private System.Windows.Controls.CheckBox? _portableHideTechnicalDataCheckBox;
     private System.Windows.Controls.TextBlock? _portableSettingsFileTextBlock;
     private System.Windows.Controls.TextBlock? _portableSettingsStatusTextBlock;
 
@@ -340,7 +339,7 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
 
         panel.Children.Add(new System.Windows.Controls.TextBlock
         {
-            Text = "Основні налаштування застосунку. Вони зберігаються у settings.json біля exe, але редагуються тут, без ручного відкриття JSON.",
+            Text = "Основні налаштування застосунку. Вони зберігаються у settings.json біля exe, але редагуються тут, без ручного відкриття JSON. AI privacy option використовується з існуючого чекбокса в секції AI генерації.",
             Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(210, 220, 232)),
             TextWrapping = System.Windows.TextWrapping.Wrap,
             Opacity = 0.95,
@@ -358,16 +357,6 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
             "Обовʼязкова папка з локальними Git repositories сервісів. Scan використовує саме цей шлях.",
             out _portableRepositoriesRootTextBox,
             BrowsePortableRepositoriesRootButton_Click));
-
-        _portableHideTechnicalDataCheckBox = new System.Windows.Controls.CheckBox
-        {
-            Content = "Hide technical data from AI prompts",
-            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(238, 244, 250)),
-            Margin = new System.Windows.Thickness(0, 10, 0, 8),
-            IsChecked = true
-        };
-        panel.Children.Add(_portableHideTechnicalDataCheckBox);
-
         _portableSettingsFileTextBlock = new System.Windows.Controls.TextBlock
         {
             Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(210, 220, 232)),
@@ -524,11 +513,10 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
 
         if (_portableRepositoriesRootTextBox is not null)
             _portableRepositoriesRootTextBox.Text = settings.RepositoriesRoot ?? "";
-
-        if (_portableHideTechnicalDataCheckBox is not null)
-            _portableHideTechnicalDataCheckBox.IsChecked = settings.HideTechnicalDataFromAi;
-
-        if (_portableSettingsFileTextBlock is not null)
+        var existingHideTechnicalDataCheckBox = FindExistingHideTechnicalDataCheckBox();
+        if (existingHideTechnicalDataCheckBox is not null)
+            existingHideTechnicalDataCheckBox.IsChecked = settings.HideTechnicalDataFromAi;
+if (_portableSettingsFileTextBlock is not null)
             _portableSettingsFileTextBlock.Text = "Settings file: " + PortableSettings.SettingsFilePath;
 
         SetPortableSettingsStatus("Loaded portable settings.");
@@ -659,7 +647,7 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
                 DataRoot = ToPortablePath(dataRoot),
                 RepositoriesRoot = ToPortablePath(repositoriesRoot),
                 AiProvider = PortableSettings.Current.AiProvider,
-                HideTechnicalDataFromAi = _portableHideTechnicalDataCheckBox?.IsChecked ?? PortableSettings.Current.HideTechnicalDataFromAi
+                HideTechnicalDataFromAi = FindExistingHideTechnicalDataCheckBox()?.IsChecked ?? PortableSettings.Current.HideTechnicalDataFromAi
             };
 
             PortableSettings.Save(settings);
@@ -719,6 +707,20 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         return FlattenVisualTree(root)
             .OfType<System.Windows.FrameworkElement>()
             .FirstOrDefault(x => string.Equals(x.Tag?.ToString(), tag, StringComparison.Ordinal));
+    }
+
+
+    private System.Windows.Controls.CheckBox? FindExistingHideTechnicalDataCheckBox()
+    {
+        return FlattenVisualTree(this)
+            .OfType<System.Windows.Controls.CheckBox>()
+            .FirstOrDefault(x =>
+            {
+                var content = x.Content?.ToString() ?? "";
+                return content.Contains("Не передавати", StringComparison.OrdinalIgnoreCase) ||
+                       content.Contains("technical", StringComparison.OrdinalIgnoreCase) ||
+                       content.Contains("hash", StringComparison.OrdinalIgnoreCase);
+            });
     }
 
     private static System.Windows.Controls.Button? FindButtonByText(System.Windows.DependencyObject root, params string[] contentParts)
