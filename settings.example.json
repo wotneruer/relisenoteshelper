@@ -1,0 +1,6 @@
+{
+  "DataRoot": ".\\data",
+  "RepositoriesRoot": "D:\\_Work_\\GIT\\directories",
+  "AiProvider": "Gemini",
+  "HideTechnicalDataFromAi": true
+}

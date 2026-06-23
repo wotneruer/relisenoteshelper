@@ -811,6 +811,22 @@
                             </StackPanel>
                         </Border>
 
+
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Portable settings"
+                                           Style="{StaticResource SectionTitleStyle}"/>
+                                <TextBlock Text="Застосунок більше не привʼязаний до D:\_Work_\Utilities\RNH або D:\_Work_\GIT\directories. При першому запуску поруч з exe створюється settings.json."
+                                           Style="{StaticResource BodyTextStyle}"/>
+                                <TextBlock Text="DataRoot за замовчуванням = .\data біля exe. У цю папку пишуться logs, results, templates, releases, ai-rules та prompts."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                                <TextBlock Text="RepositoriesRoot потрібно вказати під конкретний ПК — це папка, де лежать локальні Git repositories для сервісів."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                                <TextBlock Text="Для передачі іншій людині достатньо portable build folder. Користувач відкриває settings.json і змінює RepositoriesRoot під себе."
+                                           Style="{StaticResource GuideMutedStyle}"/>
+                            </StackPanel>
+                        </Border>
+
                         <Border Style="{StaticResource WarningCardStyle}">
                             <StackPanel>
                                 <TextBlock Text="AI fallback / quota"

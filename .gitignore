@@ -43,3 +43,7 @@ services/
 
 Thumbs.db
 .DS_Store
+# ReleaseNotesHelper portable/runtime local files
+settings.json
+data/
+dist/
