@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System;
 
 namespace ReleaseNotesHelper.App.Views;
 
@@ -283,145 +284,408 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
 
 
     private bool _portableConfigurationSettingsHooked;
+    private System.Windows.Controls.TextBox? _portableDataRootTextBox;
+    private System.Windows.Controls.TextBox? _portableRepositoriesRootTextBox;
+    private System.Windows.Controls.CheckBox? _portableHideTechnicalDataCheckBox;
+    private System.Windows.Controls.TextBlock? _portableSettingsFileTextBlock;
+    private System.Windows.Controls.TextBlock? _portableSettingsStatusTextBlock;
 
-    private void ConfigurationPortableSettings_Loaded(object sender, RoutedEventArgs e)
+    private void ConfigurationPortableSettings_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
         if (_portableConfigurationSettingsHooked)
             return;
 
         _portableConfigurationSettingsHooked = true;
-        ApplyPortableSettingsToConfigurationUi();
-        HookPortableSettingsSaveToConfigurationButton();
+
+        EnsurePortableSettingsSectionInConfigurationUi();
+        LoadPortableSettingsSection();
+        HookExistingConfigurationSaveButton();
     }
 
-    private void ApplyPortableSettingsToConfigurationUi()
+    private void EnsurePortableSettingsSectionInConfigurationUi()
     {
-        try
-        {
-            var repoTextBox = FindTextBoxAfterLabel(this, "Папка для репозитор", "repositories root", "repositories folder");
-            var outputTextBox = FindTextBoxAfterLabel(this, "Папка для результат", "output folder", "results folder");
-            var logsTextBox = FindTextBoxAfterLabel(this, "Папка для лог", "logs folder");
-            var hideTechnicalCheckBox = FindCheckBoxByText(this, "Не передавати", "Hide technical");
+        if (FindElementByTag(this, "PortableSettingsSection") is not null)
+            return;
 
-            var settings = PortableSettings.Current;
-            var dataRoot = PortableSettings.DataRoot;
-
-            if (repoTextBox is not null && !string.IsNullOrWhiteSpace(settings.RepositoriesRoot))
-                repoTextBox.Text = settings.RepositoriesRoot;
-
-            if (outputTextBox is not null && IsDefaultOrEmptyPath(outputTextBox.Text))
-                outputTextBox.Text = Path.Combine(dataRoot, "output");
-
-            if (logsTextBox is not null && IsDefaultOrEmptyPath(logsTextBox.Text))
-                logsTextBox.Text = Path.Combine(dataRoot, "logs");
-
-            if (hideTechnicalCheckBox is not null)
-                hideTechnicalCheckBox.IsChecked = settings.HideTechnicalDataFromAi;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine("Failed to apply portable settings to configuration UI: " + ex.Message);
-        }
+        var section = BuildPortableSettingsSection();
+        InsertPortableSettingsSection(section);
     }
 
-    private void HookPortableSettingsSaveToConfigurationButton()
+    private System.Windows.FrameworkElement BuildPortableSettingsSection()
+    {
+        var border = new System.Windows.Controls.Border
+        {
+            Tag = "PortableSettingsSection",
+            Margin = new System.Windows.Thickness(0, 0, 0, 14),
+            Padding = new System.Windows.Thickness(14),
+            BorderThickness = new System.Windows.Thickness(1),
+            CornerRadius = new System.Windows.CornerRadius(8),
+            BorderBrush = System.Windows.Media.Brushes.LightGray,
+            Background = System.Windows.Media.Brushes.White
+        };
+
+        var panel = new System.Windows.Controls.StackPanel
+        {
+            Orientation = System.Windows.Controls.Orientation.Vertical
+        };
+
+        panel.Children.Add(new System.Windows.Controls.TextBlock
+        {
+            Text = "Portable settings",
+            FontWeight = System.Windows.FontWeights.SemiBold,
+            FontSize = 16,
+            Margin = new System.Windows.Thickness(0, 0, 0, 6)
+        });
+
+        panel.Children.Add(new System.Windows.Controls.TextBlock
+        {
+            Text = "Основні налаштування застосунку. Вони зберігаються у settings.json біля exe, але редагуються тут, без ручного відкриття JSON.",
+            TextWrapping = System.Windows.TextWrapping.Wrap,
+            Opacity = 0.78,
+            Margin = new System.Windows.Thickness(0, 0, 0, 12)
+        });
+
+        panel.Children.Add(CreatePathRow(
+            "Data root",
+            "Папка для logs, results, templates, releases, prompts та ai-rules. Для portable mode рекомендовано .\\data.",
+            out _portableDataRootTextBox,
+            BrowsePortableDataRootButton_Click));
+
+        panel.Children.Add(CreatePathRow(
+            "Repositories root",
+            "Обовʼязкова папка з локальними Git repositories сервісів. Scan використовує саме цей шлях.",
+            out _portableRepositoriesRootTextBox,
+            BrowsePortableRepositoriesRootButton_Click));
+
+        _portableHideTechnicalDataCheckBox = new System.Windows.Controls.CheckBox
+        {
+            Content = "Hide technical data from AI prompts",
+            Margin = new System.Windows.Thickness(0, 10, 0, 8),
+            IsChecked = true
+        };
+        panel.Children.Add(_portableHideTechnicalDataCheckBox);
+
+        _portableSettingsFileTextBlock = new System.Windows.Controls.TextBlock
+        {
+            TextWrapping = System.Windows.TextWrapping.Wrap,
+            Opacity = 0.72,
+            Margin = new System.Windows.Thickness(0, 0, 0, 10)
+        };
+        panel.Children.Add(_portableSettingsFileTextBlock);
+
+        var buttons = new System.Windows.Controls.StackPanel
+        {
+            Orientation = System.Windows.Controls.Orientation.Horizontal,
+            Margin = new System.Windows.Thickness(0, 2, 0, 0)
+        };
+
+        var saveButton = new System.Windows.Controls.Button
+        {
+            Content = "Save portable settings",
+            Width = 160,
+            Margin = new System.Windows.Thickness(0, 0, 8, 0)
+        };
+        saveButton.Click += PortableSettingsSaveButton_Click;
+        buttons.Children.Add(saveButton);
+
+        var reloadButton = new System.Windows.Controls.Button
+        {
+            Content = "Reload",
+            Width = 90,
+            Margin = new System.Windows.Thickness(0, 0, 8, 0)
+        };
+        reloadButton.Click += PortableSettingsReloadButton_Click;
+        buttons.Children.Add(reloadButton);
+
+        var openDataButton = new System.Windows.Controls.Button
+        {
+            Content = "Open data folder",
+            Width = 130,
+            Margin = new System.Windows.Thickness(0, 0, 8, 0)
+        };
+        openDataButton.Click += PortableSettingsOpenDataRootButton_Click;
+        buttons.Children.Add(openDataButton);
+
+        var openFileButton = new System.Windows.Controls.Button
+        {
+            Content = "Open settings file",
+            Width = 140
+        };
+        openFileButton.Click += PortableSettingsOpenFileButton_Click;
+        buttons.Children.Add(openFileButton);
+
+        panel.Children.Add(buttons);
+
+        _portableSettingsStatusTextBlock = new System.Windows.Controls.TextBlock
+        {
+            TextWrapping = System.Windows.TextWrapping.Wrap,
+            Opacity = 0.78,
+            Margin = new System.Windows.Thickness(0, 10, 0, 0)
+        };
+        panel.Children.Add(_portableSettingsStatusTextBlock);
+
+        border.Child = panel;
+        return border;
+    }
+
+    private static System.Windows.FrameworkElement CreatePathRow(
+        string title,
+        string description,
+        out System.Windows.Controls.TextBox textBox,
+        System.Windows.RoutedEventHandler browseHandler)
+    {
+        var wrapper = new System.Windows.Controls.StackPanel
+        {
+            Orientation = System.Windows.Controls.Orientation.Vertical,
+            Margin = new System.Windows.Thickness(0, 0, 0, 10)
+        };
+
+        wrapper.Children.Add(new System.Windows.Controls.TextBlock
+        {
+            Text = title,
+            FontWeight = System.Windows.FontWeights.SemiBold,
+            Margin = new System.Windows.Thickness(0, 0, 0, 2)
+        });
+
+        wrapper.Children.Add(new System.Windows.Controls.TextBlock
+        {
+            Text = description,
+            TextWrapping = System.Windows.TextWrapping.Wrap,
+            Opacity = 0.72,
+            Margin = new System.Windows.Thickness(0, 0, 0, 5)
+        });
+
+        var dock = new System.Windows.Controls.DockPanel();
+
+        var browseButton = new System.Windows.Controls.Button
+        {
+            Content = "Browse",
+            Width = 85,
+            Margin = new System.Windows.Thickness(8, 0, 0, 0)
+        };
+        browseButton.Click += browseHandler;
+        System.Windows.Controls.DockPanel.SetDock(browseButton, System.Windows.Controls.Dock.Right);
+        dock.Children.Add(browseButton);
+
+        textBox = new System.Windows.Controls.TextBox
+        {
+            MinWidth = 420,
+            HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch
+        };
+        dock.Children.Add(textBox);
+
+        wrapper.Children.Add(dock);
+        return wrapper;
+    }
+
+    private void InsertPortableSettingsSection(System.Windows.FrameworkElement section)
+    {
+        if (Content is System.Windows.Controls.ScrollViewer scrollViewer &&
+            scrollViewer.Content is System.Windows.Controls.Panel scrollPanel)
+        {
+            scrollPanel.Children.Insert(0, section);
+            return;
+        }
+
+        if (Content is System.Windows.Controls.Panel panel)
+        {
+            panel.Children.Insert(0, section);
+            return;
+        }
+
+        if (Content is System.Windows.UIElement oldContent)
+        {
+            Content = null;
+
+            var wrapper = new System.Windows.Controls.StackPanel();
+            wrapper.Children.Add(section);
+            wrapper.Children.Add(oldContent);
+
+            Content = wrapper;
+            return;
+        }
+
+        Content = section;
+    }
+
+    private void LoadPortableSettingsSection()
+    {
+        var settings = PortableSettings.Current;
+
+        if (_portableDataRootTextBox is not null)
+            _portableDataRootTextBox.Text = string.IsNullOrWhiteSpace(settings.DataRoot) ? @".\data" : settings.DataRoot;
+
+        if (_portableRepositoriesRootTextBox is not null)
+            _portableRepositoriesRootTextBox.Text = settings.RepositoriesRoot ?? "";
+
+        if (_portableHideTechnicalDataCheckBox is not null)
+            _portableHideTechnicalDataCheckBox.IsChecked = settings.HideTechnicalDataFromAi;
+
+        if (_portableSettingsFileTextBlock is not null)
+            _portableSettingsFileTextBlock.Text = "Settings file: " + PortableSettings.SettingsFilePath;
+
+        SetPortableSettingsStatus("Loaded portable settings.");
+    }
+
+    private void HookExistingConfigurationSaveButton()
     {
         var saveButton = FindButtonByText(this, "Зберегти конфігурацію", "Save configuration");
         if (saveButton is null)
             return;
 
-        saveButton.Click -= ConfigurationPortableSettings_SaveButtonClick;
-        saveButton.Click += ConfigurationPortableSettings_SaveButtonClick;
+        saveButton.Click -= ExistingConfigurationSaveButton_PortableSettingsClick;
+        saveButton.Click += ExistingConfigurationSaveButton_PortableSettingsClick;
     }
 
-    private void ConfigurationPortableSettings_SaveButtonClick(object sender, RoutedEventArgs e)
+    private void ExistingConfigurationSaveButton_PortableSettingsClick(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SavePortableSettingsFromSection(showSuccessMessage: false);
+    }
+
+    private void PortableSettingsSaveButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SavePortableSettingsFromSection(showSuccessMessage: true);
+    }
+
+    private void PortableSettingsReloadButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        PortableSettings.Reload();
+        LoadPortableSettingsSection();
+    }
+
+    private void BrowsePortableDataRootButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        BrowseFolderIntoTextBox(_portableDataRootTextBox);
+    }
+
+    private void BrowsePortableRepositoriesRootButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        BrowseFolderIntoTextBox(_portableRepositoriesRootTextBox);
+    }
+
+    private static void BrowseFolderIntoTextBox(System.Windows.Controls.TextBox? textBox)
+    {
+        if (textBox is null)
+            return;
+
+        using var dialog = new System.Windows.Forms.FolderBrowserDialog
+        {
+            Description = "Select folder",
+            UseDescriptionForTitle = true
+        };
+
+        if (!string.IsNullOrWhiteSpace(textBox.Text))
+        {
+            var current = PortableSettings.ResolvePath(textBox.Text, PortableSettings.AppDirectory);
+            if (Directory.Exists(current))
+                dialog.SelectedPath = current;
+        }
+
+        if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            textBox.Text = dialog.SelectedPath;
+    }
+
+    private void PortableSettingsOpenDataRootButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         try
         {
-            var repoTextBox = FindTextBoxAfterLabel(this, "Папка для репозитор", "repositories root", "repositories folder");
-            var outputTextBox = FindTextBoxAfterLabel(this, "Папка для результат", "output folder", "results folder");
-            var logsTextBox = FindTextBoxAfterLabel(this, "Папка для лог", "logs folder");
-            var hideTechnicalCheckBox = FindCheckBoxByText(this, "Не передавати", "Hide technical");
+            Directory.CreateDirectory(PortableSettings.DataRoot);
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = PortableSettings.DataRoot,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            SetPortableSettingsStatus("Failed to open data folder: " + ex.Message);
+        }
+    }
 
-            var repoPath = repoTextBox?.Text?.Trim() ?? "";
-            var outputPath = outputTextBox?.Text?.Trim() ?? "";
-            var logsPath = logsTextBox?.Text?.Trim() ?? "";
+    private void PortableSettingsOpenFileButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        try
+        {
+            if (!File.Exists(PortableSettings.SettingsFilePath))
+                PortableSettings.Save();
 
-            var dataRoot = InferPortableDataRoot(outputPath, logsPath, PortableSettings.Current.DataRoot);
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = PortableSettings.SettingsFilePath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            SetPortableSettingsStatus("Failed to open settings file: " + ex.Message);
+        }
+    }
+
+    private bool SavePortableSettingsFromSection(bool showSuccessMessage)
+    {
+        try
+        {
+            var dataRoot = _portableDataRootTextBox?.Text?.Trim() ?? "";
+            var repositoriesRoot = _portableRepositoriesRootTextBox?.Text?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(dataRoot))
+            {
+                SetPortableSettingsStatus("Data root is required. Recommended value: .\\data");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(repositoriesRoot))
+            {
+                SetPortableSettingsStatus("Repositories root is required for scan.");
+                return false;
+            }
+
+            var resolvedRepositoriesRoot = PortableSettings.ResolvePath(repositoriesRoot, PortableSettings.AppDirectory);
+            if (!Directory.Exists(resolvedRepositoriesRoot))
+            {
+                SetPortableSettingsStatus("Repositories root does not exist: " + resolvedRepositoriesRoot);
+                return false;
+            }
+
             var settings = new PortableAppSettings
             {
-                DataRoot = dataRoot,
-                RepositoriesRoot = ToPortablePath(repoPath),
+                DataRoot = ToPortablePath(dataRoot),
+                RepositoriesRoot = ToPortablePath(repositoriesRoot),
                 AiProvider = PortableSettings.Current.AiProvider,
-                HideTechnicalDataFromAi = hideTechnicalCheckBox?.IsChecked ?? PortableSettings.Current.HideTechnicalDataFromAi
+                HideTechnicalDataFromAi = _portableHideTechnicalDataCheckBox?.IsChecked ?? PortableSettings.Current.HideTechnicalDataFromAi
             };
 
             PortableSettings.Save(settings);
             Directory.CreateDirectory(PortableSettings.DataRoot);
-            Directory.CreateDirectory(Path.Combine(PortableSettings.DataRoot, "logs"));
-            Directory.CreateDirectory(Path.Combine(PortableSettings.DataRoot, "output"));
 
-            System.Diagnostics.Debug.WriteLine("Portable settings saved from Configuration tab. DataRoot='" + settings.DataRoot + "', RepositoriesRoot='" + settings.RepositoriesRoot + "'.");
+            if (_portableDataRootTextBox is not null)
+                _portableDataRootTextBox.Text = settings.DataRoot;
+
+            if (_portableRepositoriesRootTextBox is not null)
+                _portableRepositoriesRootTextBox.Text = settings.RepositoriesRoot;
+
+            if (_portableSettingsFileTextBlock is not null)
+                _portableSettingsFileTextBlock.Text = "Settings file: " + PortableSettings.SettingsFilePath;
+
+            SetPortableSettingsStatus(showSuccessMessage ? "Portable settings saved." : "Portable settings saved with configuration.");
+            return true;
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine("Failed to save portable settings from Configuration tab: " + ex.Message);
+            SetPortableSettingsStatus("Failed to save portable settings: " + ex.Message);
+            return false;
         }
     }
 
-    private static bool IsDefaultOrEmptyPath(string? value)
+    private void SetPortableSettingsStatus(string message)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return true;
+        if (_portableSettingsStatusTextBlock is not null)
+            _portableSettingsStatusTextBlock.Text = message;
 
-        return value.Contains(@"\data\", StringComparison.OrdinalIgnoreCase) ||
-               value.Contains(@"/data/", StringComparison.OrdinalIgnoreCase);
+        System.Diagnostics.Debug.WriteLine(message);
     }
 
-    private static string InferPortableDataRoot(string? outputPath, string? logsPath, string currentDataRoot)
-    {
-        var candidates = new List<string>();
-
-        AddParentIfEndsWith(candidates, outputPath, "output");
-        AddParentIfEndsWith(candidates, logsPath, "logs");
-
-        var appData = PortableSettings.ResolvePath(@".\data", PortableSettings.AppDirectory);
-
-        foreach (var candidate in candidates)
-        {
-            if (PathsEqual(candidate, appData))
-                return @".\data";
-        }
-
-        var grouped = candidates
-            .Where(x => !string.IsNullOrWhiteSpace(x))
-            .GroupBy(x => Path.GetFullPath(x), StringComparer.OrdinalIgnoreCase)
-            .OrderByDescending(x => x.Count())
-            .FirstOrDefault();
-
-        if (grouped is not null)
-            return ToPortablePath(grouped.Key);
-
-        return string.IsNullOrWhiteSpace(currentDataRoot) ? @".\data" : currentDataRoot;
-    }
-
-    private static void AddParentIfEndsWith(List<string> candidates, string? path, string leaf)
-    {
-        if (string.IsNullOrWhiteSpace(path))
-            return;
-
-        var full = PortableSettings.ResolvePath(path, PortableSettings.AppDirectory);
-        var normalizedLeaf = Path.GetFileName(full.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-
-        if (!string.Equals(normalizedLeaf, leaf, StringComparison.OrdinalIgnoreCase))
-            return;
-
-        var parent = Path.GetDirectoryName(full);
-        if (!string.IsNullOrWhiteSpace(parent))
-            candidates.Add(parent);
-    }
-
-    private static string ToPortablePath(string? path)
+    private static string ToPortablePath(string path)
     {
         if (string.IsNullOrWhiteSpace(path))
             return "";
@@ -443,52 +707,14 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
         return full;
     }
 
-    private static bool PathsEqual(string? left, string? right)
-    {
-        if (string.IsNullOrWhiteSpace(left) || string.IsNullOrWhiteSpace(right))
-            return false;
-
-        return string.Equals(
-            Path.GetFullPath(left).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
-            Path.GetFullPath(right).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
-            StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static System.Windows.Controls.TextBox? FindTextBoxAfterLabel(DependencyObject root, params string[] labelParts)
-    {
-        var elements = FlattenVisualTree(root).ToList();
-
-        for (var i = 0; i < elements.Count; i++)
-        {
-            if (elements[i] is not TextBlock label)
-                continue;
-
-            var text = label.Text ?? "";
-            if (!labelParts.Any(x => text.Contains(x, StringComparison.OrdinalIgnoreCase)))
-                continue;
-
-            for (var j = i + 1; j < Math.Min(elements.Count, i + 18); j++)
-            {
-                if (elements[j] is System.Windows.Controls.TextBox textBox)
-                    return textBox;
-            }
-        }
-
-        return null;
-    }
-
-    private static System.Windows.Controls.CheckBox? FindCheckBoxByText(DependencyObject root, params string[] contentParts)
+    private static System.Windows.FrameworkElement? FindElementByTag(System.Windows.DependencyObject root, string tag)
     {
         return FlattenVisualTree(root)
-            .OfType<System.Windows.Controls.CheckBox>()
-            .FirstOrDefault(x =>
-            {
-                var content = x.Content?.ToString() ?? "";
-                return contentParts.Any(part => content.Contains(part, StringComparison.OrdinalIgnoreCase));
-            });
+            .OfType<System.Windows.FrameworkElement>()
+            .FirstOrDefault(x => string.Equals(x.Tag?.ToString(), tag, StringComparison.Ordinal));
     }
 
-    private static System.Windows.Controls.Button? FindButtonByText(DependencyObject root, params string[] contentParts)
+    private static System.Windows.Controls.Button? FindButtonByText(System.Windows.DependencyObject root, params string[] contentParts)
     {
         return FlattenVisualTree(root)
             .OfType<System.Windows.Controls.Button>()
@@ -499,17 +725,17 @@ public partial class ConfigurationView : System.Windows.Controls.UserControl
             });
     }
 
-    private static IEnumerable<DependencyObject> FlattenVisualTree(DependencyObject root)
+    private static IEnumerable<System.Windows.DependencyObject> FlattenVisualTree(System.Windows.DependencyObject root)
     {
         if (root is null)
             yield break;
 
         yield return root;
 
-        var count = VisualTreeHelper.GetChildrenCount(root);
+        var count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(root);
         for (var i = 0; i < count; i++)
         {
-            var child = VisualTreeHelper.GetChild(root, i);
+            var child = System.Windows.Media.VisualTreeHelper.GetChild(root, i);
             foreach (var descendant in FlattenVisualTree(child))
                 yield return descendant;
         }
