@@ -73,6 +73,25 @@ public static class PortableSettings
         }
     }
 
+
+    public static void Save(PortableAppSettings settings)
+    {
+        lock (Sync)
+        {
+            if (settings is null)
+                throw new ArgumentNullException(nameof(settings));
+
+            if (string.IsNullOrWhiteSpace(settings.DataRoot))
+                settings.DataRoot = @".\data";
+
+            _settings = settings;
+
+            Directory.CreateDirectory(AppDirectory);
+            var json = JsonSerializer.Serialize(_settings, JsonOptions);
+            File.WriteAllText(SettingsFilePath, json);
+        }
+    }
+
     public static void Save()
     {
         lock (Sync)
